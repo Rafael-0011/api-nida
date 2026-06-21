@@ -1,13 +1,19 @@
 package com.blametech.api_nida.model;
 
+import com.blametech.api_nida.util.shared.Audit;
 import jakarta.persistence.*;
+import lombok.*;
 
-import java.time.LocalDateTime;
 import java.util.UUID;
 
+@EqualsAndHashCode(callSuper = true)
 @Entity
 @Table(name = "tb_user")
-public class UserModel {
+@Builder
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+public class UserModel extends Audit {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
@@ -23,28 +29,9 @@ public class UserModel {
     @Column(name = "str_user_email", unique = true, length = 255)
     private String email;
 
-    @OneToOne
-    @JoinColumn(name = "ui_stage_user_id", referencedColumnName = "ui_stage_id")
-    private StageUserModel stageUserModel;
+    @Column(name = "ui_stage_id")
+    private UUID stage;
 
-    @OneToOne
-    @JoinColumn(name = "ui_status_user_id", referencedColumnName = "ui_status_id")
-    private StatusUser status;
-
-    @Column(name = "dat_user_created_at", updatable = false)
-    private LocalDateTime createdAt;
-
-    @Column(name = "dat_user_updated_at")
-    private LocalDateTime updatedAt;
-
-    @PrePersist
-    protected void onCreate() {
-        this.createdAt = LocalDateTime.now();
-        this.updatedAt = LocalDateTime.now();
-    }
-
-    @PreUpdate
-    protected void onUpdate() {
-        this.updatedAt = LocalDateTime.now();
-    }
+    @Column(name = "ui_status_id")
+    private UUID status;
 }
