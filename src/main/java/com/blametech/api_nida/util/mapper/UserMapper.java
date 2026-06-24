@@ -1,37 +1,37 @@
 package com.blametech.api_nida.util.mapper;
 
-
-import com.blametech.api_nida.model.UserModel;
-import com.blametech.api_nida.model.dto.req.UserCreateReq;
-import com.blametech.api_nida.model.dto.req.UserUpdateReq;
-import com.blametech.api_nida.model.dto.res.UserFindRes;
+import com.blametech.api_nida.model.UserEntity;
+import com.blametech.api_nida.model.dto.req.UserCreateDtoReq;
+import com.blametech.api_nida.model.dto.req.UserUpdateDtoReq;
+import com.blametech.api_nida.model.dto.res.UserFindDtoRes;
 
 public class UserMapper {
+
     private UserMapper() {}
 
-    public static UserModel toUserModel(UserCreateReq userCreateReq) {
-        return UserModel.builder()
-                .username(userCreateReq.username())
-                .password(userCreateReq.password())
-                .email(userCreateReq.email())
-                .stage(userCreateReq.stage())
-                .status(userCreateReq.status())
+    public static UserEntity toUserEntity(UserCreateDtoReq dto) {
+        return UserEntity.builder()
+                .username(dto.username())
+                .password(dto.password())
+                .email(dto.email())
+                .stage(dto.stage())
+                .status(dto.status())
                 .build();
     }
 
-    public static void toUserModel(UserModel UserModel, UserUpdateReq userUpdateReq) {
-        UserModel.setUsername(userUpdateReq.username());
-        UserModel.setEmail(userUpdateReq.email());
+    public static void toUserEntity(UserEntity entity, UserUpdateDtoReq dto) {
+        entity.setUsername(dto.username());
+        entity.setEmail(dto.email());
     }
 
-    public static UserFindRes toUserFind(UserModel userModel) {
-        return new UserFindRes(
-                userModel.getId(),
-                userModel.getUsername(),
-                userModel.getPassword(),
-                userModel.getEmail(),
-                userModel.getStage(),
-                userModel.getStatus()
+    public static UserFindDtoRes toUserFind(UserEntity entity) {
+        return new UserFindDtoRes(
+                entity.getId(),
+                entity.getUsername(),
+                entity.getPassword(),
+                entity.getEmail(),
+                entity.getStage(),
+                entity.getStatus()
         );
     }
 }

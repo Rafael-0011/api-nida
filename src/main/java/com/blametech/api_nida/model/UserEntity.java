@@ -13,7 +13,7 @@ import java.util.UUID;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserModel extends Audit {
+public class UserEntity extends Audit {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)

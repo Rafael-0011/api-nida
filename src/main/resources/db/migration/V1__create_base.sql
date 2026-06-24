@@ -15,7 +15,9 @@ CREATE TABLE IF NOT EXISTS tb_stage (
 CREATE TABLE IF NOT EXISTS tb_vacancy (
     ui_vacancy_id uuid PRIMARY KEY,
     str_vacancy_name VARCHAR(255),
-    str_vacancy_description TEXT
+    str_vacancy_description TEXT,
+    dat_created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    dat_updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
 -- 4. TABELA DE STATUS DO USUÁRIO

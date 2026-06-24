@@ -6,7 +6,7 @@ import jakarta.validation.constraints.NotNull;
 
 import java.util.UUID;
 
-public record UserCreateReq(
+public record UserCreateDtoReq(
         @NotBlank(message = "O username é obrigatório")
         String username,
 
@@ -22,4 +22,6 @@ public record UserCreateReq(
 
         @NotNull(message = "O status é obrigatório")
         UUID status
-) {}
+) {
+
+}

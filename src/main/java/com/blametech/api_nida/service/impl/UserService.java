@@ -1,8 +1,8 @@
 package com.blametech.api_nida.service.impl;
 
-import com.blametech.api_nida.model.dto.req.UserCreateReq;
-import com.blametech.api_nida.model.dto.req.UserUpdateReq;
-import com.blametech.api_nida.model.dto.res.UserFindRes;
+import com.blametech.api_nida.model.dto.req.UserCreateDtoReq;
+import com.blametech.api_nida.model.dto.req.UserUpdateDtoReq;
+import com.blametech.api_nida.model.dto.res.UserFindDtoRes;
 import com.blametech.api_nida.repository.UserRepository;
 import com.blametech.api_nida.service.IUserService;
 import com.blametech.api_nida.util.mapper.UserMapper;
@@ -20,9 +20,25 @@ public class UserService implements IUserService {
     private final UserRepository userRepository;
 
     @Override
-    public ResponseEntity<String> createUser(UserCreateReq userCreateReq) {
-        userRepository.save(UserMapper.toUserModel(userCreateReq));
+    public ResponseEntity<String> createUser(UserCreateDtoReq userCreateDtoReq) {
+        userRepository.save(UserMapper.toUserEntity(userCreateDtoReq));
         return ResponseEntity.ok("User created successfully");
+    }
+
+    @Override
+    @Transactional
+    public ResponseEntity<String> UpdateUser(UUID id, UserUpdateDtoReq userUpdateDtoReq) {
+        var user = userRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+        UserMapper.toUserEntity(user, userUpdateDtoReq);
+        return ResponseEntity.ok("User updated successfully");
+    }
+
+    @Override
+    public ResponseEntity<UserFindDtoRes> getUser(UUID id) {
+        return userRepository.findById(id)
+                .map(user -> ResponseEntity.ok(UserMapper.toUserFind(user)))
+                .orElseThrow(() -> new RuntimeException("User not found"));
     }
 
     @Override
@@ -31,21 +47,5 @@ public class UserService implements IUserService {
         userRepository.findById(id).orElseThrow(() -> new RuntimeException("User not found"));
         userRepository.deleteById(id);
         return ResponseEntity.ok("User deleted successfully");
-    }
-
-    @Override
-    @Transactional
-    public ResponseEntity<String> UpdateUser(UUID id, UserUpdateReq userUpdateReq) {
-        var user = userRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("User not found"));
-        UserMapper.toUserModel(user, userUpdateReq);
-        return ResponseEntity.ok("User updated successfully");
-    }
-
-    @Override
-    public ResponseEntity<UserFindRes> getUser(UUID id) {
-        return userRepository.findById(id)
-                .map(user -> ResponseEntity.ok(UserMapper.toUserFind(user)))
-                .orElseThrow(() -> new RuntimeException("User not found"));
     }
 }

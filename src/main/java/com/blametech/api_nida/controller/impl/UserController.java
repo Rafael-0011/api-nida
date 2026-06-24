@@ -1,9 +1,9 @@
 package com.blametech.api_nida.controller.impl;
 
 import com.blametech.api_nida.controller.IUserController;
-import com.blametech.api_nida.model.dto.req.UserCreateReq;
-import com.blametech.api_nida.model.dto.req.UserUpdateReq;
-import com.blametech.api_nida.model.dto.res.UserFindRes;
+import com.blametech.api_nida.model.dto.req.UserCreateDtoReq;
+import com.blametech.api_nida.model.dto.req.UserUpdateDtoReq;
+import com.blametech.api_nida.model.dto.res.UserFindDtoRes;
 import com.blametech.api_nida.service.IUserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -20,25 +20,25 @@ public class UserController implements IUserController {
 
     @Override
     @PostMapping
-    public ResponseEntity<String> createUser(UserCreateReq userCreateReq) {
+    public ResponseEntity<String> createUser(@RequestBody UserCreateDtoReq userCreateReq) {
         return userService.createUser(userCreateReq);
     }
 
     @Override
     @PutMapping("/{id}")
-    public ResponseEntity<String> updateUser(UUID id, UserUpdateReq userUpdateReq) {
-        return userService.UpdateUser(id, userUpdateReq);
+    public ResponseEntity<String> updateUser(@PathVariable UUID id, @RequestBody UserUpdateDtoReq userUpdateDtoReq) {
+        return userService.UpdateUser(id, userUpdateDtoReq);
     }
 
     @Override
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteUser(UUID id) {
+    public ResponseEntity<String> deleteUser(@PathVariable UUID id) {
         return userService.DeleteUser(id);
     }
 
     @Override
     @GetMapping("/{id}")
-    public ResponseEntity<UserFindRes> findUser(UUID id) {
+    public ResponseEntity<UserFindDtoRes> findUser(@PathVariable UUID id) {
         return userService.getUser(id);
     }
 
