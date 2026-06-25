@@ -6,7 +6,7 @@ import java.util.UUID;
 
 @Entity
 @Table(name = "tb_stage_user")
-public class StageUserModel {
+public class StageUserEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
